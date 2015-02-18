@@ -31,9 +31,10 @@ class Demo extends React.Component {
   render(){
     var calcStyle = clone(style);
     calcStyle.backgroundColor = this.state.shifted? 'rgb(0,0,255)': 'rgb(255,0,0)';
+    calcStyle.opacity = this.state.shifted? 1: 0.3;
 
     var listNodes = this.state.list.map(item => {
-      return <Animove className='anim' key={item}>
+      return <Animove tagName='li' className='anim' key={item}>
         {item}
       </Animove>;
     });
@@ -53,9 +54,9 @@ class Demo extends React.Component {
         Sup
       </Animove>}
 
-      <div>
+      <ul>
         {listNodes}
-      </div>
+      </ul>
     </div>;
   }
 
