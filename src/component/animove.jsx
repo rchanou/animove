@@ -29,8 +29,6 @@ export default class Animove extends React.Component {
     this.animatedNode = document.createElement('span');
     parent.appendChild(this.animatedNode);
 
-    var moverId = '' + new Date().valueOf() + Math.random();
-
     this.moveAnimatedComponent = () => {
       var rect = me.getBoundingClientRect();
       var parentRect = parent.parentElement.getBoundingClientRect();
@@ -51,27 +49,28 @@ export default class Animove extends React.Component {
 
       newProps.style = newStyle;
 
-			newProps.id = moverId;
-
       var animatedComponent = React.createElement(
         tagName, newProps, children
       );
 
       React.render(animatedComponent, this.animatedNode, e => {
+        var moverEl = this.animatedNode.firstChild;
 
-        /*var moverEl = document.getElementById(moverId);
-        moverEl.addEventListener('webkitTransitionEnd', e => {
-          console.log('end', e);
+        var animatableProperties = [
+          'transform', 'transformOrigin', 'perspective', 'perspectiveOrigin', 'color', 'opacity', 'columnWidth', 'columnCount',
+          'columnGap', 'columnRuleColor', 'columnRuleWidth', 'letterSpacing', 'textIndent', 'wordSpacing', 'textDecorationColor',
+          'textShadow', 'flexBasis', 'flexGrow', 'flexShrink', 'order', 'backgroundColor', 'backgroundPosition', 'backgroundSize',
+          'borderBottomColor', 'borderLeftColor', 'borderRightColor', 'borderTopColor', 'borderBottomWidth', 'borderLeftWidth',
+          'borderRightWidth', 'borderTopWidth', 'borderBottomLeftRadius', 'borderBottomRightRadius', 'borderTopLeftRadius', 'borderTopRightRadius',
+          'margin', 'marginBottom', 'marginLeft', 'marginRight', 'marginTop', 'padding', 'paddingBottom', 'paddingLeft', 'paddingRight',
+          'paddingTop', 'maxHeight', 'minHeight', 'height', 'maxWidth', 'minWidth', 'width', 'verticalAlign', 'zIndex', 'fontWeight',
+          'fontStretch', 'fontSize', 'lineHeight', 'fontSizeAdjust', 'objectPosition', 'outlineColor', 'outlineWidth', 'outlineOffset',
+          'clip', 'shapeOutside', 'shapeMargin', 'shapeImageThreshold'
+        ];
+
+        animatableProperties.forEach(property => {
+          moverEl.style[property] = me.style[property];
         });
-        var lastStyle = reactifyDomStyle(this.refs.me.getDOMNode());
-        for (var property in me.style){
-          if (['visibility', 'position', 'top', 'left'].indexOf(property) === -1){
-            console.log(property);
-            moverEl.style[property] = me.style[property];
-          }
-        }*/
-        moverEl.style.backgroundColor = me.style.backgroundColor;
-        moverEl.style.opacity = me.style.opacity;
       });
     };
 
