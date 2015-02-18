@@ -55,7 +55,7 @@ class Demo extends React.Component {
       </Animove>}
 
       <ul>
-        {listNodes}
+        {false && listNodes}
       </ul>
     </div>;
   }

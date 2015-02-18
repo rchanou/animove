@@ -40,14 +40,16 @@ export default class Animove extends React.Component {
       let { tagName, children, ...otherProps } = this.props;
 
       var newProps = clone(otherProps);
-      delete newProps.className;
-      newProps.style = reactifyDomStyle(me);
-      newProps.style.visibility = otherProps.origVisibility;
-      newProps.style.position = 'absolute';
-      newProps.style.top = top;
-      newProps.style.left = left;
 
-      console.log(newProps.style.backgroundColor);
+      delete newProps.className;
+
+      var newStyle = reactifyDomStyle(this.refs.me.getDOMNode());
+      newStyle.visibility = otherProps.origVisibility;
+      newStyle.position = 'absolute';
+      newStyle.top = top;
+      newStyle.left = left;
+
+      newProps.style = newStyle;
 
 			newProps.id = moverId;
 
@@ -56,7 +58,18 @@ export default class Animove extends React.Component {
       );
 
       React.render(animatedComponent, this.animatedNode, e => {
-        var moverEl = document.getElementById(moverId);
+
+        /*var moverEl = document.getElementById(moverId);
+        moverEl.addEventListener('webkitTransitionEnd', e => {
+          console.log('end', e);
+        });
+        var lastStyle = reactifyDomStyle(this.refs.me.getDOMNode());
+        for (var property in me.style){
+          if (['visibility', 'position', 'top', 'left'].indexOf(property) === -1){
+            console.log(property);
+            moverEl.style[property] = me.style[property];
+          }
+        }*/
         moverEl.style.backgroundColor = me.style.backgroundColor;
         moverEl.style.opacity = me.style.opacity;
       });
@@ -66,6 +79,7 @@ export default class Animove extends React.Component {
   }
 
   componentDidUpdate(){
+    //setTimeout(this.moveAnimatedComponent, 500);
     this.moveAnimatedComponent();
   }
 
